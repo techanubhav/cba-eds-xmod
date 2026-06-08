@@ -342,6 +342,95 @@ async function loadTemplate(main) {
   }
 }
 
+// --- Adobe Target (at.js via Launch) ---
+const ADOBE_LAUNCH_URL = 'https://assets.adobedtm.com/7236b01c616f/62bbba279dd2/launch-390968a87a21.min.js';
+const TARGET_PROPERTY_TOKEN = '325f02f8-62db-9d98-b45c-969204c07bf7';
+
+function isTargetEnabled() {
+  if (getMetadata('target')) return true;
+  const path = window.location.pathname.replace(/\/$/, '');
+  return path === '' || path === '/index';
+}
+
+function injectTargetPropertyToken() {
+  if (document.querySelector('meta[property="at_property"]')) return;
+  const meta = document.createElement('meta');
+  meta.name = 'adobe-target';
+  meta.setAttribute('property', 'at_property');
+  meta.content = TARGET_PROPERTY_TOKEN;
+  document.head.append(meta);
+}
+
+function onDecoratedElement(fn) {
+  if (document.querySelector('[data-block-status="loaded"],[data-section-status="loaded"]')) {
+    fn();
+  }
+  const observer = new MutationObserver((mutations) => {
+    if (mutations.some((m) => m.target.tagName === 'BODY'
+      || m.target.dataset.sectionStatus === 'loaded'
+      || m.target.dataset.blockStatus === 'loaded')) {
+      fn();
+    }
+  });
+  const main = document.querySelector('main');
+  if (main) {
+    observer.observe(main, {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['data-block-status', 'data-section-status'],
+    });
+  }
+  observer.observe(document.body, { childList: true });
+}
+
+function toCssSelector(selector) {
+  return selector.replace(/(\.\S+)?:eq\((\d+)\)/g, (_, clss, i) => `:nth-child(${Number(i) + 1}${clss ? ` of ${clss})` : ''}`);
+}
+
+async function getElementForOffer(offer) {
+  const selector = offer.cssSelector || toCssSelector(offer.selector);
+  return document.querySelector(selector);
+}
+
+async function getAndApplyOffers() {
+  if (!window.adobe?.target?.getOffers) return;
+  const response = await window.adobe.target.getOffers({ request: { execute: { pageLoad: {} } } });
+  const { options = [], metrics = [] } = response.execute.pageLoad;
+  onDecoratedElement(() => {
+    window.adobe.target.applyOffers({ response });
+    options.forEach((o) => {
+      o.content = o.content.filter((c) => !getElementForOffer(c));
+    });
+    metrics.map((m, i) => (document.querySelector(toCssSelector(m.selector)) ? i : -1))
+      .filter((i) => i >= 0)
+      .reverse()
+      .forEach((i) => metrics.splice(i, 1));
+  });
+}
+
+function initTarget() {
+  injectTargetPropertyToken();
+  window.targetGlobalSettings = {
+    pageLoadEnabled: false,
+    bodyHidingEnabled: false,
+    cookieDomain: window.location.hostname,
+  };
+  return new Promise((resolve) => {
+    const onReady = () => {
+      document.removeEventListener('at-library-loaded', onReady);
+      getAndApplyOffers().then(resolve).catch(resolve);
+    };
+    if (window.adobe?.target?.getOffers) {
+      onReady();
+    } else {
+      document.addEventListener('at-library-loaded', onReady);
+    }
+    loadScript(ADOBE_LAUNCH_URL, { async: '' });
+  });
+}
+
+const targetPromise = isTargetEnabled() ? initTarget() : Promise.resolve();
+
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
@@ -355,10 +444,23 @@ async function loadEager(doc) {
     }
     decorateMain(main);
     document.body.classList.add('appear');
-    await loadSection(main.querySelector('.section'), async (s) => {
-      await waitForFirstImage(s);
-      await loadFragments(s);
-    });
+    if (isTargetEnabled()) {
+      await targetPromise;
+      await new Promise((resolve) => {
+        window.setTimeout(async () => {
+          await loadSection(main.querySelector('.section'), async (s) => {
+            await waitForFirstImage(s);
+            await loadFragments(s);
+          });
+          resolve();
+        }, 0);
+      });
+    } else {
+      await loadSection(main.querySelector('.section'), async (s) => {
+        await waitForFirstImage(s);
+        await loadFragments(s);
+      });
+    }
   }
 
   try {

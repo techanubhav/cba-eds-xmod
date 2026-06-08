@@ -4,6 +4,7 @@ import { loadScript } from './aem.js';
 const ADOBE_LAUNCH_URL = 'https://assets.adobedtm.com/7236b01c616f/62bbba279dd2/launch-390968a87a21.min.js';
 
 async function loadAdobeLaunch() {
+  if (window._satellite) return undefined;
   window.adobeDataLayer = window.adobeDataLayer || [];
   return loadScript(ADOBE_LAUNCH_URL, { async: '' });
 }
