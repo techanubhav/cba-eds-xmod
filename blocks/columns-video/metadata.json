@@ -1,0 +1,39 @@
+{
+  "variantName": "columns-video",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-06-08T06:22:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.commbank.com.au/",
+    "originPage": "CommBank homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "video-feature",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "heading + paragraph + CTA | video embed",
+    "buttonCount": 1,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "feature sections with video and descriptive text",
+      "product demo sections",
+      "announcement sections with accompanying video"
+    ],
+    "notSuitableFor": [
+      "image-only side-by-side layouts",
+      "multi-row column content",
+      "dark-themed support sections"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-06-08T06:22:00.000Z"
+  }
+}

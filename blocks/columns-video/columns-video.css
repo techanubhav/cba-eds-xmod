@@ -1,0 +1,124 @@
+/* Block: columns-video
+   Two-column layout: text left, video right.
+   White background, bottom divider, standard spacing. */
+
+.columns-video {
+  color: var(--text-color);
+  padding: 0;
+}
+
+.columns-video > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.columns-video > div > div {
+  order: 1;
+}
+
+/* Text cell */
+.columns-video > div > div:first-child {
+  order: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Video cell */
+.columns-video > div > div:last-child {
+  order: 0;
+}
+
+.columns-video h2 {
+  font-size: 24px;
+  font-weight: 800;
+  font-family: var(--heading-font-family);
+  line-height: 40px;
+  color: var(--text-color);
+  margin: 0 0 16px;
+}
+
+.columns-video > div > div:first-child > h2:first-child {
+  margin-top: 0;
+}
+
+.columns-video p {
+  font-size: var(--body-font-size-m);
+  font-family: var(--body-font-family);
+  line-height: 24px;
+  color: var(--text-color);
+  margin: 0 0 16px;
+}
+
+/* Tertiary link style (reset EDS button decoration) */
+.columns-video .button-container {
+  display: block;
+  margin-top: 16px;
+}
+
+main .columns-video a.button:any-link {
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  color: var(--link-color);
+  font-size: var(--body-font-size-m);
+  font-weight: 400;
+  text-decoration: none;
+  white-space: normal;
+}
+
+main .columns-video a.button:any-link:hover {
+  text-decoration: underline;
+  color: var(--link-hover-color);
+}
+
+/* Embed (video) styling */
+.columns-video .embed-wrapper {
+  width: 100%;
+}
+
+.columns-video .embed-wrapper > p {
+  margin: 0;
+  line-height: 0;
+}
+
+.columns-video .embed-wrapper .embed {
+  width: 100%;
+}
+
+/* Bottom divider */
+.columns-video::after {
+  content: "";
+  display: block;
+  height: 1px;
+  background-color: rgb(233 233 233);
+  margin-top: 48px;
+}
+
+/* Desktop layout */
+@media (width >= 900px) {
+  .columns-video > div {
+    flex-direction: row;
+    align-items: center;
+    gap: 64px;
+  }
+
+  .columns-video > div > div {
+    flex: 0 1 50%;
+    order: unset;
+  }
+
+  .columns-video > div > div:first-child {
+    order: unset;
+  }
+
+  .columns-video > div > div:last-child {
+    order: unset;
+  }
+
+  .columns-video h2 {
+    margin: 0 0 40px;
+  }
+}

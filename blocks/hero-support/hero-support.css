@@ -1,0 +1,154 @@
+/* Block: hero-support -- Full-width hero banner with background image and overlay */
+
+/* Full-width section and wrapper override */
+.hero-support-container {
+  padding-block: 0 !important;
+}
+
+.hero-support-wrapper {
+  max-width: unset !important;
+  padding: 0 !important;
+}
+
+/* Block root */
+.hero-support {
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Dark overlay for text readability over image */
+.hero-support::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgb(0 0 0 / 55%) 0%, rgb(0 0 0 / 30%) 50%, transparent 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Image row - positioned as full background */
+.hero-support > div:first-child {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Content row */
+.hero-support > div:last-child {
+  position: relative;
+  z-index: 2;
+  padding: 48px 24px;
+  width: 100%;
+}
+
+.hero-support > div:first-child > div {
+  height: 100%;
+}
+
+.hero-support > div:last-child > div {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.hero-support picture {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-support img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* Headings - white for image variant */
+.hero-support h1 {
+  font-size: 32px;
+  font-weight: 800;
+  font-family: var(--heading-font-family);
+  line-height: 1.2;
+  color: #fff;
+  margin: 0 0 24px;
+}
+
+.hero-support h2,
+.hero-support h3,
+.hero-support h4,
+.hero-support h5,
+.hero-support h6 {
+  color: #fff;
+}
+
+/* Paragraph */
+.hero-support p {
+  font-size: 16px;
+  font-family: var(--body-font-family);
+  line-height: 24px;
+  color: #fff;
+  margin: 0 0 16px;
+}
+
+/* CTA Button - yellow pill from source */
+.hero-support .button-container {
+  display: block;
+  margin-top: 24px;
+}
+
+main .hero-support a.button:any-link {
+  background-color: var(--color-cba-yellow);
+  color: var(--color-cba-black);
+  padding: 0 24px;
+  border: 1px solid var(--color-cba-yellow);
+  border-radius: 24px;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--body-font-family);
+  text-decoration: none;
+  display: inline-block;
+  height: 48px;
+  line-height: 46px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+main .hero-support a.button:any-link:hover {
+  background-color: #e6b800;
+  border-color: #e6b800;
+}
+
+/* No-image variant - dark text on light background */
+.hero-support.no-image {
+  background-color: var(--color-cba-light-grey);
+  min-height: auto;
+}
+
+.hero-support.no-image::after {
+  display: none;
+}
+
+.hero-support.no-image h1,
+.hero-support.no-image h2,
+.hero-support.no-image h3,
+.hero-support.no-image p {
+  color: var(--text-color);
+}
+
+/* Desktop styles */
+@media (width >= 900px) {
+  .hero-support {
+    min-height: 480px;
+  }
+
+  .hero-support > div:last-child {
+    padding: 64px 48px;
+    width: 50%;
+  }
+
+  .hero-support h1 {
+    font-size: 40px;
+    line-height: 48px;
+  }
+}

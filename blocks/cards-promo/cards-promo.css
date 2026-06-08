@@ -1,0 +1,179 @@
+/* Block: cards-promo -- mixed promo + mini card layout */
+
+.cards-promo > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.cards-promo > ul > li {
+  box-shadow: rgb(0 0 0 / 30%) 0 0 3px 0;
+  background-color: var(--background-color);
+  overflow: hidden;
+}
+
+.cards-promo > ul > li:hover {
+  box-shadow: rgb(0 0 0 / 30%) 0 2px 8px 0;
+}
+
+/* Large card image */
+.cards-promo > ul > li .cards-promo-card-image {
+  line-height: 0;
+  overflow: hidden;
+}
+
+.cards-promo > ul > li .cards-promo-card-image img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 780 / 416;
+  object-fit: cover;
+  display: block;
+}
+
+/* Large card body */
+.cards-promo > ul > li .cards-promo-card-body {
+  padding: 24px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cards-promo > ul > li .cards-promo-card-body h3 {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 28px;
+  color: var(--text-color);
+  margin: 0 0 16px;
+}
+
+.cards-promo > ul > li .cards-promo-card-body p {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--text-color);
+  margin: 0 0 16px;
+}
+
+.cards-promo > ul > li .cards-promo-card-body p:last-child {
+  margin-top: auto;
+  margin-bottom: 0;
+}
+
+/* CTA links - override EDS button auto-decoration */
+.cards-promo .cards-promo-card-body .button-container {
+  display: block;
+  margin-top: auto;
+}
+
+.cards-promo .cards-promo-card-body a.button:any-link {
+  color: var(--link-color);
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  white-space: normal;
+}
+
+.cards-promo .cards-promo-card-body a.button:any-link:hover {
+  text-decoration: underline;
+  color: var(--link-hover-color);
+}
+
+/* Mini cards (index 2+) */
+.cards-promo > ul > li.cards-promo-mini {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  height: auto;
+}
+
+.cards-promo > ul > li.cards-promo-mini .cards-promo-card-image {
+  width: 120px;
+  min-width: 120px;
+  height: 120px;
+  overflow: hidden;
+}
+
+.cards-promo > ul > li.cards-promo-mini .cards-promo-card-image img {
+  width: 120px;
+  height: 120px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.cards-promo > ul > li.cards-promo-mini .cards-promo-card-body {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  flex: 1;
+}
+
+.cards-promo > ul > li.cards-promo-mini .cards-promo-card-body h3 {
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 24px;
+  color: var(--color-cba-black);
+  margin: 0;
+}
+
+.cards-promo > ul > li.cards-promo-mini .cards-promo-card-body h3 a {
+  color: var(--color-cba-black);
+  text-decoration: none;
+}
+
+.cards-promo > ul > li.cards-promo-mini .cards-promo-card-body h3 a:hover {
+  text-decoration: underline;
+}
+
+/* Desktop layout: 3-column grid */
+@media (width >= 900px) {
+  .cards-promo > ul {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 32px;
+    align-items: start;
+  }
+
+  /* Large cards span their own column */
+  .cards-promo > ul > li {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* First two large cards take columns 1 and 2, spanning all rows */
+  .cards-promo > ul > li:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1 / 4;
+  }
+
+  .cards-promo > ul > li:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1 / 4;
+  }
+
+  /* Mini cards stack in the third column */
+  .cards-promo > ul > li.cards-promo-mini:nth-child(3) {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: start;
+  }
+
+  .cards-promo > ul > li.cards-promo-mini:nth-child(4) {
+    grid-column: 3;
+    grid-row: 2;
+    align-self: center;
+  }
+
+  .cards-promo > ul > li.cards-promo-mini:nth-child(5) {
+    grid-column: 3;
+    grid-row: 3;
+    align-self: end;
+  }
+}
