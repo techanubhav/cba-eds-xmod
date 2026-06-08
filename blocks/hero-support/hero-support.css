@@ -1,8 +1,16 @@
-/* Block: hero-support -- Full-width hero banner with background image and overlay */
+/* stylelint-disable no-descending-specificity */
 
-/* Full-width section and wrapper override */
+/* Block: hero-support -- CommBank homepage hero with white content panel over background image */
+
+/* Full-width section override */
 .hero-support-container {
   padding-block: 0 !important;
+  margin: 0 !important;
+}
+
+.hero-support-container > div {
+  max-width: unset !important;
+  padding: 0 !important;
 }
 
 .hero-support-wrapper {
@@ -19,16 +27,6 @@
   overflow: hidden;
 }
 
-/* Dark overlay for text readability over image */
-.hero-support::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgb(0 0 0 / 55%) 0%, rgb(0 0 0 / 30%) 50%, transparent 100%);
-  z-index: 1;
-  pointer-events: none;
-}
-
 /* Image row - positioned as full background */
 .hero-support > div:first-child {
   position: absolute;
@@ -36,21 +34,8 @@
   z-index: 0;
 }
 
-/* Content row */
-.hero-support > div:last-child {
-  position: relative;
-  z-index: 2;
-  padding: 48px 24px;
-  width: 100%;
-}
-
 .hero-support > div:first-child > div {
   height: 100%;
-}
-
-.hero-support > div:last-child > div {
-  max-width: 1280px;
-  margin: 0 auto;
 }
 
 .hero-support picture {
@@ -60,34 +45,42 @@
 
 .hero-support img {
   object-fit: cover;
+  object-position: center 20%;
   width: 100%;
   height: 100%;
 }
 
-/* Headings - white for image variant */
+/* Content row - white panel with yellow left ribbon */
+.hero-support > div:last-child {
+  position: relative;
+  z-index: 2;
+  padding: 48px 24px;
+  width: 100%;
+}
+
+.hero-support > div:last-child > div {
+  max-width: 1280px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 48px 48px 48px 56px;
+  border-left: 16px solid var(--color-cba-yellow);
+}
+
+/* Headings - dark text on white panel */
 .hero-support h1 {
   font-size: 32px;
   font-weight: 800;
   font-family: var(--heading-font-family);
   line-height: 1.2;
-  color: #fff;
+  color: var(--text-color);
   margin: 0 0 24px;
 }
 
-.hero-support h2,
-.hero-support h3,
-.hero-support h4,
-.hero-support h5,
-.hero-support h6 {
-  color: #fff;
-}
-
-/* Paragraph */
 .hero-support p {
   font-size: 16px;
   font-family: var(--body-font-family);
   line-height: 24px;
-  color: #fff;
+  color: var(--text-color);
   margin: 0 0 16px;
 }
 
@@ -101,7 +94,7 @@ main .hero-support a.button:any-link {
   background-color: var(--color-cba-yellow);
   color: var(--color-cba-black);
   padding: 0 24px;
-  border: 1px solid var(--color-cba-yellow);
+  border: 2px solid var(--color-cba-yellow);
   border-radius: 24px;
   font-size: 16px;
   font-weight: 400;
@@ -109,7 +102,7 @@ main .hero-support a.button:any-link {
   text-decoration: none;
   display: inline-block;
   height: 48px;
-  line-height: 46px;
+  line-height: 44px;
   text-align: center;
   white-space: nowrap;
 }
@@ -125,15 +118,10 @@ main .hero-support a.button:any-link:hover {
   min-height: auto;
 }
 
-.hero-support.no-image::after {
-  display: none;
-}
-
-.hero-support.no-image h1,
-.hero-support.no-image h2,
-.hero-support.no-image h3,
-.hero-support.no-image p {
-  color: var(--text-color);
+.hero-support.no-image > div:last-child > div {
+  background-color: transparent;
+  border-left: none;
+  padding: 48px 24px;
 }
 
 /* Desktop styles */
@@ -144,11 +132,15 @@ main .hero-support a.button:any-link:hover {
 
   .hero-support > div:last-child {
     padding: 64px 48px;
-    width: 50%;
+    width: 55%;
   }
 
   .hero-support h1 {
-    font-size: 40px;
-    line-height: 48px;
+    font-size: 36px;
+    line-height: 44px;
+  }
+
+  .hero-support img {
+    object-position: 65% 15%;
   }
 }
