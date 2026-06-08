@@ -2,6 +2,11 @@
 
 /* Source: CommBank homepage .six-packs-module */
 
+/* Section styling */
+.cards-nav-wrapper {
+  padding: 64px 0;
+}
+
 .cards-nav > ul {
   list-style: none;
   margin: 0;

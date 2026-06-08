@@ -1,36 +1,5 @@
-// Delayed functionality – martech, social share (injected on every page)
-import {
-  buildBlock, decorateBlock, loadBlock, loadScript,
-} from './aem.js';
-import { createTag } from './shared.js';
-
-const SHARE_THIS_SRC = 'https://platform-api.sharethis.com/js/sharethis.js';
-
-async function injectSocialShareBlock() {
-  const main = document.querySelector('main');
-  if (!main || main.querySelector('.social-share')) return;
-
-  const section = createTag('div', {
-    class: 'section',
-    'data-section-status': 'initialized',
-  });
-  section.style.display = null;
-
-  const wrapper = createTag('div');
-  const block = buildBlock('social-share', [[]]);
-  wrapper.append(block);
-  section.append(wrapper);
-
-  main.append(section);
-
-  decorateBlock(block);
-  await loadBlock(block);
-}
-
-async function loadShareThis() {
-  if (!document.querySelector('.sharethis-share-buttons')) return;
-  await loadScript(SHARE_THIS_SRC, { async: '' });
-}
+// Delayed functionality – martech
+import { loadScript } from './aem.js';
 
 async function loadCloudflareAnalytics() {
   if (!window.location.hostname.includes('bbird.live')) return;
@@ -43,8 +12,6 @@ async function loadCloudflareAnalytics() {
 
 async function init() {
   await loadCloudflareAnalytics();
-  await injectSocialShareBlock();
-  await loadShareThis();
 }
 
 init();
