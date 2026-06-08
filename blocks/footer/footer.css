@@ -1,121 +1,73 @@
 footer {
   width: 100%;
-  background-color: light-dark(var(--color-rust), #0a1628);
-  color: var(--color-parchment);
-  border-top: light-dark(none, var(--border-heritage));
-  font-size: var(--body-font-size-xs);
+  background-color: var(--color-cba-black);
+  color: #fff;
+  font-size: var(--body-font-size-s);
 }
 
 footer .footer > div {
-  max-width: 1100px;
+  max-width: var(--content-max-width);
   margin: 0 auto;
   padding: 40px var(--content-padding-inline);
-  text-align: center;
 }
 
-footer .footer p {
-  margin: 0;
-  line-height: 1.55;
+footer .footer h4 {
+  color: #fff;
+  font-size: var(--body-font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--space-m);
 }
 
-/* Row 1: Disclaimer */
-footer .footer .section:first-child {
-  padding-bottom: var(--space-m);
-  font-size: var(--body-font-size-s);
-  font-weight: 400;
-}
-
-/* Row 2: Tagline */
-footer .footer .section:nth-child(2) p {
-  font-family: var(--font-family);
-  font-weight: 400;
-  font-size: var(--body-font-size-s);
-  opacity: 0.7;
-  margin-top: var(--space-s);
-}
-
-/* Row 3: Copyright + social icons (merged) */
-footer .footer .section:nth-child(3) {
-  margin-top: var(--space-m);
-  border-top: 1px solid rgb(255 255 255 / 15%);
-  padding-top: var(--space-m);
-}
-
-footer .footer .section:nth-child(3) .default-content-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: var(--space-s);
-}
-
-footer .footer .footer-separator {
-  opacity: 0.4;
-  margin-inline: var(--space-xs);
-}
-
-footer .footer .section:nth-child(3) ul {
-  margin: 0;
-  padding: 0;
+footer .footer ul {
   list-style: none;
-  display: flex;
-  align-items: center;
-  gap: var(--space-s);
+  padding: 0;
+  margin: 0;
 }
 
-footer .footer .section:nth-child(3) li {
-  margin: 0;
+footer .footer li {
+  margin-bottom: var(--space-s);
 }
 
 footer .footer a:any-link {
-  color: var(--color-parchment);
-  text-decoration-color: rgb(247 249 251 / 30%);
-  transition: color 0.25s var(--ease-out-smooth, cubic-bezier(0.4, 0, 0.2, 1)), text-decoration-color 0.25s var(--ease-out-smooth, cubic-bezier(0.4, 0, 0.2, 1)), opacity 0.25s var(--ease-out-smooth, cubic-bezier(0.4, 0, 0.2, 1));
-}
-
-footer .footer a:any-link:hover {
-  text-decoration-color: var(--color-gold);
-  color: var(--color-gold);
-}
-
-footer .footer .section:nth-child(3) ul a {
+  color: #fff;
   text-decoration: none;
-  color: inherit;
-  opacity: 0.7;
-  transition: opacity 0.25s var(--ease-out-smooth, cubic-bezier(0.4, 0, 0.2, 1)), transform 0.25s var(--ease-out-smooth, cubic-bezier(0.4, 0, 0.2, 1));
+  font-size: var(--body-font-size-s);
 }
 
-footer .footer .section:nth-child(3) ul a:hover {
-  opacity: 1;
-  transform: scale(1.1);
+footer .footer a:hover {
+  color: var(--color-cba-yellow);
+  text-decoration: underline;
 }
 
-footer .footer .icon {
-  width: 18px;
-  height: 18px;
-  filter: brightness(0) invert(1);
-  transition: transform 0.25s var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1));
+footer .footer > div:first-child {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+  padding-bottom: var(--space-xl);
+  border-bottom: 1px solid rgb(255 255 255 / 20%);
 }
 
-footer .footer .icon.icon-logo {
-  display: inline-flex;
-  align-items: center;
-  width: auto;
-  height: 1.2em;
-  vertical-align: middle;
-  margin-inline: 4px;
-  filter: none;
-  color: var(--color-parchment);
+footer .footer > div:last-child {
+  padding-top: var(--space-l);
 }
 
-footer .footer .icon.icon-logo :is(svg, img) {
-  width: auto;
-  height: 100%;
-  object-fit: contain;
+footer .footer > div:last-child p {
+  color: rgb(255 255 255 / 70%);
+  font-size: var(--body-font-size-xs);
+  line-height: 1.6;
+  margin: 0 0 var(--space-s);
 }
 
 @media (width >= 600px) {
-  footer .footer > div {
-    padding: 48px var(--content-padding-inline);
+  footer .footer > div:first-child {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width >= 900px) {
+  footer .footer > div:first-child {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

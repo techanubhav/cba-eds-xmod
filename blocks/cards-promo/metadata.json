@@ -1,0 +1,39 @@
+{
+  "variantName": "cards-promo",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-06-08T06:22:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.commbank.com.au/",
+    "originPage": "CommBank homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "promotional",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "heading + large cards (image + title + description + CTA) + mini cards (image + title)",
+    "buttonCount": 2,
+    "imageCount": 5
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "homepage promotional sections with mixed card sizes",
+      "editorial content showcases",
+      "featured content areas with primary and secondary items"
+    ],
+    "notSuitableFor": [
+      "uniform grid card layouts",
+      "navigation-style icon cards",
+      "simple article listings without mixed sizing"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-06-08T06:22:00.000Z"
+  }
+}

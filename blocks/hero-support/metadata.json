@@ -1,0 +1,39 @@
+{
+  "variantName": "hero-support",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-06-08T06:22:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.commbank.com.au/",
+    "originPage": "CommBank homepage",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "support-hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "heading + paragraph + 1 CTA",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "homepage hero banners",
+      "support and assistance landing pages",
+      "crisis communication pages"
+    ],
+    "notSuitableFor": [
+      "product pages without background images",
+      "text-only hero sections",
+      "pages with multiple CTAs"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-06-08T06:22:00.000Z"
+  }
+}

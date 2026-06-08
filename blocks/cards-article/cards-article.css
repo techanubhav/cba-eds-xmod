@@ -1,0 +1,112 @@
+/*
+ * Block: cards-article -- article cards in a horizontal grid
+ * Extracted values: container flex row, cards flex:1 0 0, padding-right:16px
+ * h3: 20px/28px weight 800, p: 16px/24px, link: #1175b5 no-decoration
+ */
+
+.cards-article > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+.cards-article > ul > li {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.cards-article .cards-article-card-image {
+  line-height: 0;
+  margin-bottom: 16px;
+}
+
+.cards-article .cards-article-card-image img {
+  width: 100%;
+  aspect-ratio: 15 / 8;
+  object-fit: cover;
+  display: block;
+}
+
+.cards-article .cards-article-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cards-article .cards-article-card-body h3 {
+  font-size: 20px;
+  font-weight: 800;
+  font-family: var(--heading-font-family);
+  line-height: 28px;
+  color: var(--text-color);
+  margin: 0 0 24px;
+}
+
+.cards-article .cards-article-card-body p {
+  font-size: 16px;
+  font-family: var(--body-font-family);
+  line-height: 24px;
+  color: var(--text-color);
+  margin: 0 0 16px;
+}
+
+.cards-article .cards-article-card-body p:last-child {
+  margin-top: auto;
+  margin-bottom: 0;
+}
+
+.cards-article .cards-article-card-body a:any-link {
+  color: var(--link-color);
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.cards-article .cards-article-card-body a:hover {
+  text-decoration: underline;
+}
+
+/* Override EDS button auto-decoration */
+.cards-article .button-container {
+  display: block;
+  margin-top: auto;
+}
+
+.cards-article a.button:any-link {
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  color: var(--link-color);
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+  white-space: normal;
+  display: inline;
+}
+
+.cards-article a.button:any-link:hover {
+  text-decoration: underline;
+  background: none;
+  color: var(--link-hover-color);
+}
+
+@media (width >= 600px) {
+  .cards-article > ul {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (width >= 900px) {
+  .cards-article > ul {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+}

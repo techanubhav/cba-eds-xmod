@@ -1,0 +1,129 @@
+/* Block: cards-nav -- Navigation category panels (3x2 grid) */
+
+/* Source: CommBank homepage .six-packs-module */
+
+.cards-nav > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px 0;
+}
+
+.cards-nav > ul > li {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 0;
+}
+
+/* Icon cell */
+.cards-nav .cards-nav-card-image {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+
+.cards-nav .cards-nav-card-image picture {
+  display: block;
+  width: 56px;
+  height: 56px;
+}
+
+.cards-nav .cards-nav-card-image img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  aspect-ratio: auto;
+}
+
+/* Body cell */
+.cards-nav .cards-nav-card-body {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Category heading (h3 with link) */
+.cards-nav .cards-nav-card-body h3 {
+  font-size: 20px;
+  font-weight: 800;
+  font-family: var(--heading-font-family);
+  line-height: 28px;
+  color: var(--color-cba-black);
+  margin: 0 0 12px;
+}
+
+.cards-nav .cards-nav-card-body h3:empty,
+.cards-nav .cards-nav-card-body h3:has(a:empty) {
+  margin: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.cards-nav .cards-nav-card-body h3 a {
+  color: var(--color-cba-black);
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.cards-nav .cards-nav-card-body h3 a:hover {
+  text-decoration: underline;
+}
+
+/* Sub-links list */
+.cards-nav .cards-nav-card-body ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cards-nav .cards-nav-card-body ul li {
+  margin: 0 0 16px;
+  padding: 0;
+  line-height: 24px;
+}
+
+.cards-nav .cards-nav-card-body ul li:last-child {
+  margin-bottom: 0;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.cards-nav .cards-nav-card-body ul li a {
+  color: var(--link-color);
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+  line-height: 24px;
+}
+
+.cards-nav .cards-nav-card-body ul li a:hover {
+  text-decoration: underline;
+}
+
+/* "More from..." link (paragraph with link) -- hidden on desktop like source */
+.cards-nav .cards-nav-card-body p {
+  margin: 0;
+  display: none;
+}
+
+/* EDS button reset for this block */
+.cards-nav .cards-nav-card-body .button-container {
+  display: none;
+}
+
+/* Desktop: 3-column grid */
+@media (width >= 900px) {
+  .cards-nav > ul {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px 48px;
+  }
+
+  .cards-nav .cards-nav-card-body h3 {
+    font-size: 24px;
+  }
+}

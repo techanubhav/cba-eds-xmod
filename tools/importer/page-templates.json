@@ -1,0 +1,104 @@
+{
+  "metadata": {
+    "projectType": "da"
+  },
+  "templates": [
+    {
+      "name": "homepage",
+      "urls": ["https://www.commbank.com.au/"],
+      "description": "CommBank main homepage with hero banner, product cards, and promotional content",
+      "blocks": [
+        {
+          "name": "hero-support",
+          "instances": [".hero-banner-module.homepage-banner"]
+        },
+        {
+          "name": "cards-nav",
+          "instances": [".six-packs-module .six-packs-wrapper"]
+        },
+        {
+          "name": "columns-video",
+          "instances": [".video-module.video-right"]
+        },
+        {
+          "name": "cards-article",
+          "instances": [".column-control#column-control-0 .four-column"]
+        },
+        {
+          "name": "cards-promo",
+          "instances": [".card-module-alt .card-combo"]
+        },
+        {
+          "name": "columns-support",
+          "instances": [".helpv2-module"]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Hero Banner",
+          "selector": ".container.hero-container",
+          "style": null,
+          "blocks": ["hero-support"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-2",
+          "name": "Product Navigation Grid",
+          "selector": ".homepage-six-pack",
+          "style": null,
+          "blocks": ["cards-nav"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-3",
+          "name": "Video Feature",
+          "selector": ".video-module.video-right",
+          "style": null,
+          "blocks": ["columns-video"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-4",
+          "name": "Article Cards",
+          "selector": ".column-control#column-control-0",
+          "style": null,
+          "blocks": ["cards-article"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-5",
+          "name": "Financial Difficulty CTA",
+          "selector": ".cta-module.title-on-left",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [".cta-module.title-on-left h2", ".cta-module.title-on-left .cta-wrapper"]
+        },
+        {
+          "id": "section-6",
+          "name": "More from CommBank",
+          "selector": ".cardsV2",
+          "style": null,
+          "blocks": ["cards-promo"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-7",
+          "name": "Help Section",
+          "selector": ".helpv2-module",
+          "style": "dark",
+          "blocks": ["columns-support"],
+          "defaultContent": []
+        },
+        {
+          "id": "section-8",
+          "name": "Disclaimers",
+          "selector": ".column-control#column-control-1",
+          "style": "dark",
+          "blocks": [],
+          "defaultContent": [".column-control#column-control-1 .header-content h2", ".column-control#column-control-1 .item-inner"]
+        }
+      ]
+    }
+  ]
+}

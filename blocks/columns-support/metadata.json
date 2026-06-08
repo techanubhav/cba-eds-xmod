@@ -1,0 +1,39 @@
+{
+  "variantName": "columns-support",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-06-08T06:22:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.commbank.com.au/",
+    "originPage": "CommBank homepage",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "compact",
+    "purpose": "support",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "heading + support links column | contact cards column",
+    "buttonCount": 0,
+    "imageCount": 3
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "help and support sections on dark backgrounds",
+      "contact information with link lists",
+      "customer service navigation sections"
+    ],
+    "notSuitableFor": [
+      "light-themed content sections",
+      "image-heavy side-by-side layouts",
+      "video feature sections"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-06-08T06:22:00.000Z"
+  }
+}

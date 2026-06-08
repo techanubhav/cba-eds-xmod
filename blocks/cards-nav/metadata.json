@@ -1,0 +1,39 @@
+{
+  "variantName": "cards-nav",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-06-08T06:22:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.commbank.com.au/",
+    "originPage": "CommBank homepage",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "navigation",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "icon + heading + link list",
+    "buttonCount": 0,
+    "imageCount": 6
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "homepage product/service navigation grids",
+      "category landing pages with icon-based navigation",
+      "service directory pages"
+    ],
+    "notSuitableFor": [
+      "article or blog card layouts",
+      "image-heavy promotional cards",
+      "pages without icon-based navigation patterns"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-06-08T06:22:00.000Z"
+  }
+}
