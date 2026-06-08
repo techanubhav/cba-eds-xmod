@@ -394,42 +394,48 @@ async function getElementForOffer(offer) {
 
 async function getAndApplyOffers() {
   if (!window.adobe?.target?.getOffers) return;
-  const response = await window.adobe.target.getOffers({ request: { execute: { pageLoad: {} } } });
-  const { options = [], metrics = [] } = response.execute.pageLoad;
-  onDecoratedElement(() => {
-    window.adobe.target.applyOffers({ response });
-    options.forEach((o) => {
-      o.content = o.content.filter((c) => !getElementForOffer(c));
+  try {
+    const response = await window.adobe.target.getOffers({ request: { execute: { pageLoad: {} } } });
+    const { options = [], metrics = [] } = response.execute.pageLoad;
+    onDecoratedElement(() => {
+      window.adobe.target.applyOffers({ response });
+      options.forEach((o) => {
+        o.content = o.content.filter((c) => !getElementForOffer(c));
+      });
+      metrics.map((m, i) => (document.querySelector(toCssSelector(m.selector)) ? i : -1))
+        .filter((i) => i >= 0)
+        .reverse()
+        .forEach((i) => metrics.splice(i, 1));
     });
-    metrics.map((m, i) => (document.querySelector(toCssSelector(m.selector)) ? i : -1))
-      .filter((i) => i >= 0)
-      .reverse()
-      .forEach((i) => metrics.splice(i, 1));
-  });
+  } catch (e) {
+    // Target unavailable — page should still render
+  }
 }
 
-function initTarget() {
+function applyOffersWhenReady() {
+  if (window.adobe?.target?.getOffers) {
+    getAndApplyOffers();
+    return;
+  }
+  document.addEventListener('at-library-loaded', () => getAndApplyOffers(), { once: true });
+  window.setTimeout(() => getAndApplyOffers(), 3000);
+}
+
+function startTarget() {
   injectTargetPropertyToken();
   window.targetGlobalSettings = {
     pageLoadEnabled: false,
     bodyHidingEnabled: false,
     cookieDomain: window.location.hostname,
   };
-  return new Promise((resolve) => {
-    const onReady = () => {
-      document.removeEventListener('at-library-loaded', onReady);
-      getAndApplyOffers().then(resolve).catch(resolve);
-    };
-    if (window.adobe?.target?.getOffers) {
-      onReady();
-    } else {
-      document.addEventListener('at-library-loaded', onReady);
-    }
-    loadScript(ADOBE_LAUNCH_URL, { async: '' });
-  });
+  loadScript(ADOBE_LAUNCH_URL, { async: '' })
+    .then(() => applyOffersWhenReady())
+    .catch(() => {});
 }
 
-const targetPromise = isTargetEnabled() ? initTarget() : Promise.resolve();
+if (isTargetEnabled()) {
+  startTarget();
+}
 
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
@@ -444,23 +450,10 @@ async function loadEager(doc) {
     }
     decorateMain(main);
     document.body.classList.add('appear');
-    if (isTargetEnabled()) {
-      await targetPromise;
-      await new Promise((resolve) => {
-        window.setTimeout(async () => {
-          await loadSection(main.querySelector('.section'), async (s) => {
-            await waitForFirstImage(s);
-            await loadFragments(s);
-          });
-          resolve();
-        }, 0);
-      });
-    } else {
-      await loadSection(main.querySelector('.section'), async (s) => {
-        await waitForFirstImage(s);
-        await loadFragments(s);
-      });
-    }
+    await loadSection(main.querySelector('.section'), async (s) => {
+      await waitForFirstImage(s);
+      await loadFragments(s);
+    });
   }
 
   try {
