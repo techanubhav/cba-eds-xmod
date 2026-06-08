@@ -342,9 +342,10 @@ async function loadTemplate(main) {
   }
 }
 
-// --- Adobe Target (at.js via Launch) ---
-const ADOBE_LAUNCH_URL = 'https://assets.adobedtm.com/7236b01c616f/62bbba279dd2/launch-390968a87a21.min.js';
+// --- Adobe Target (Delivery API) ---
+const TARGET_CLIENT = 'anubhavs';
 const TARGET_PROPERTY_TOKEN = '325f02f8-62db-9d98-b45c-969204c07bf7';
+const TARGET_DELIVERY_URL = `https://${TARGET_CLIENT}.tt.omtrdc.net/rest/v1/delivery?client=${TARGET_CLIENT}`;
 
 function isTargetEnabled() {
   if (getMetadata('target')) return true;
@@ -352,13 +353,12 @@ function isTargetEnabled() {
   return path === '' || path === '/index';
 }
 
-function injectTargetPropertyToken() {
-  if (document.querySelector('meta[property="at_property"]')) return;
-  const meta = document.createElement('meta');
-  meta.name = 'adobe-target';
-  meta.setAttribute('property', 'at_property');
-  meta.content = TARGET_PROPERTY_TOKEN;
-  document.head.append(meta);
+function getTargetSessionId() {
+  const stored = sessionStorage.getItem('target-session-id');
+  if (stored) return stored;
+  const sessionId = `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
+  sessionStorage.setItem('target-session-id', sessionId);
+  return sessionId;
 }
 
 function onDecoratedElement(fn) {
@@ -387,54 +387,73 @@ function toCssSelector(selector) {
   return selector.replace(/(\.\S+)?:eq\((\d+)\)/g, (_, clss, i) => `:nth-child(${Number(i) + 1}${clss ? ` of ${clss})` : ''}`);
 }
 
-async function getElementForOffer(offer) {
-  const selector = offer.cssSelector || toCssSelector(offer.selector);
-  return document.querySelector(selector);
+function applyTargetAction(action) {
+  const selector = action.cssSelector || toCssSelector(action.selector);
+  const el = document.querySelector(selector);
+  if (!el || action.content == null) return;
+  const html = String(action.content);
+  switch (action.type) {
+    case 'setHtml':
+    case 'setContent':
+      el.innerHTML = html;
+      break;
+    case 'setText':
+      el.textContent = html;
+      break;
+    case 'insertAfter':
+    case 'insertBefore':
+    case 'replaceWith':
+      if (/<[^>]+>/.test(html)) {
+        el.innerHTML = html;
+      } else {
+        el.textContent = html;
+      }
+      break;
+    default:
+      break;
+  }
 }
 
-async function getAndApplyOffers() {
-  if (!window.adobe?.target?.getOffers) return;
+function applyTargetOptions(options = []) {
+  options.forEach((option) => {
+    option.content?.forEach((action) => applyTargetAction(action));
+  });
+}
+
+async function fetchTargetOffers() {
+  const sessionId = getTargetSessionId();
+  const response = await fetch(`${TARGET_DELIVERY_URL}&sessionId=${encodeURIComponent(sessionId)}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({
+      context: {
+        channel: 'web',
+        address: { url: window.location.href },
+        browser: { host: window.location.hostname },
+      },
+      property: { token: TARGET_PROPERTY_TOKEN },
+      execute: { pageLoad: {} },
+    }),
+  });
+  if (!response.ok) return null;
+  const data = await response.json();
+  const tntId = data?.id?.tntId;
+  if (typeof tntId === 'string') {
+    sessionStorage.setItem('target-session-id', tntId.split('.')[0]);
+  }
+  return data;
+}
+
+async function getAndApplyTargetOffers() {
   try {
-    const response = await window.adobe.target.getOffers({ request: { execute: { pageLoad: {} } } });
-    const { options = [], metrics = [] } = response.execute.pageLoad;
-    onDecoratedElement(() => {
-      window.adobe.target.applyOffers({ response });
-      options.forEach((o) => {
-        o.content = o.content.filter((c) => !getElementForOffer(c));
-      });
-      metrics.map((m, i) => (document.querySelector(toCssSelector(m.selector)) ? i : -1))
-        .filter((i) => i >= 0)
-        .reverse()
-        .forEach((i) => metrics.splice(i, 1));
-    });
+    const data = await fetchTargetOffers();
+    const options = data?.execute?.pageLoad?.options;
+    if (!options?.length) return;
+    onDecoratedElement(() => applyTargetOptions(options));
   } catch (e) {
     // Target unavailable — page should still render
   }
-}
-
-function applyOffersWhenReady() {
-  if (window.adobe?.target?.getOffers) {
-    getAndApplyOffers();
-    return;
-  }
-  document.addEventListener('at-library-loaded', () => getAndApplyOffers(), { once: true });
-  window.setTimeout(() => getAndApplyOffers(), 3000);
-}
-
-function startTarget() {
-  injectTargetPropertyToken();
-  window.targetGlobalSettings = {
-    pageLoadEnabled: false,
-    bodyHidingEnabled: false,
-    cookieDomain: window.location.hostname,
-  };
-  loadScript(ADOBE_LAUNCH_URL, { async: '' })
-    .then(() => applyOffersWhenReady())
-    .catch(() => {});
-}
-
-if (isTargetEnabled()) {
-  startTarget();
 }
 
 async function loadEager(doc) {
@@ -450,6 +469,9 @@ async function loadEager(doc) {
     }
     decorateMain(main);
     document.body.classList.add('appear');
+    if (isTargetEnabled()) {
+      await getAndApplyTargetOffers();
+    }
     await loadSection(main.querySelector('.section'), async (s) => {
       await waitForFirstImage(s);
       await loadFragments(s);
